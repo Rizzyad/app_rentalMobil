@@ -21,7 +21,7 @@ export const tableData = [
   },
   {
     id: 2,
-    car: "Lambo",
+    car: "Aventador",
     customer: "Eka",
     rentalDate: "25/05/2024",
     returnDate: "30/05/2024",
@@ -37,7 +37,30 @@ export const tableData = [
   },
 ];
 
-export const ActionBodyTemplate = ({rowData, handleDelete}) => {
+export const carData = [
+  {
+    id: 1,
+    name: "Fortuner",
+    pricePerDay: 5000,
+  },
+  {
+    id: 2,
+    name: "Aventador",
+    pricePerDay: 10000,
+  },
+  {
+    id: 3,
+    name: "Ferrari",
+    pricePerDay: 8000,
+  },
+  {
+    id: 4,
+    name: "BMW",
+    pricePerDay: 7000,
+  },
+];
+
+export const ActionBodyTemplate = ({ rowData, handleDelete }) => {
   const deleteConfirm = (rowData) => {
     confirmDialog({
       message: "Do you want to delete this record?",
@@ -70,11 +93,11 @@ export const ActionBodyTemplate = ({rowData, handleDelete}) => {
   );
 };
 
-export const Header = ({open}) => {
+export const Header = ({ open }) => {
   return (
     <div className="flex flex-wrap align-items-center justify-content-between gap-2">
       <span className="text-xl text-900 font-bold">Transaction Data</span>
-      <Button icon="pi pi-plus" rounded raised onClick={open}/>
+      <Button icon="pi pi-plus" rounded raised onClick={open} />
     </div>
   );
 };

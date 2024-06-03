@@ -59,6 +59,8 @@ function App() {
     const { car, customer, rentalDate, returnDate, rentalFees } =
       newTransaction;
 
+    const carUpdated = car.split(":")[0].trim();
+
     if (!car && !customer && !rentalDate && !returnDate && rentalFees === 0)
       return;
 
@@ -67,22 +69,22 @@ function App() {
         ? Math.max(...transaction.map((t) => t.id)) + 1
         : 1;
     const newEntry = {
-      ...newTransaction,
       id: newId,
-      rentalDate: formatDate(newTransaction.rentalDate),
-      returnDate: formatDate(newTransaction.returnDate),
+      car: carUpdated,
+      customer,
+      rentalDate: formatDate(rentalDate),
+      returnDate: formatDate(returnDate),
+      rentalFees,
     };
 
     setTransaction([...transaction, newEntry]);
-    setNewTransaction([
-      {
-        car: "",
-        customer: "",
-        rentalDate: "",
-        returnDate: "",
-        rentalFees: 0,
-      },
-    ]);
+    setNewTransaction({
+      car: "",
+      customer: "",
+      rentalDate: "",
+      returnDate: "",
+      rentalFees: 0,
+    });
 
     toast.current.show({
       severity: "success",
@@ -97,13 +99,16 @@ function App() {
   const handleInputChange = (field, value) => {
     let updatedTransaction = { ...newTransaction, [field]: value };
     if (field === "car") {
-      const selectedCar = carsData.find((car) => ` ${car.name}  : ${car.pricePerDay} /day` === value);
+      const selectedCar = carsData.find(
+        (car) => ` ${car.name}  : ${car.pricePerDay} /day` === value
+      );
       if (selectedCar) {
         updatedTransaction.rentalFees = selectedCar.pricePerDay;
       } else {
         updatedTransaction.rentalFees = 0;
       }
     }
+    setNewTransaction(updatedTransaction);
   };
 
   return (
@@ -118,7 +123,9 @@ function App() {
               data-autofocus
               label="Car"
               placeholder="Select the car"
-              data={carsData.map((car) => ` ${car.name}  : ${car.pricePerDay} /day`)}
+              data={carsData.map(
+                (car) => ` ${car.name}  : ${car.pricePerDay} /day`
+              )}
               value={newTransaction.car || ""}
               onChange={(value) => handleInputChange("car", value)}
             />

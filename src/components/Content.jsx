@@ -1,4 +1,5 @@
 import { Button } from "primereact/button";
+import { confirmDialog } from "primereact/confirmdialog";
 
 export const columns = [
   { field: "id", header: "ID" },
@@ -36,7 +37,19 @@ export const tableData = [
   },
 ];
 
-export const actionBodyTemplate = (rowData, { handleDelete }) => {
+export const ActionBodyTemplate = ({rowData, handleDelete}) => {
+  const deleteConfirm = (rowData) => {
+    confirmDialog({
+      message: "Do you want to delete this record?",
+      header: "Delete Confirmation",
+      icon: "pi pi-info-circle",
+      defaultFocus: "reject",
+      acceptClassName: "p-button-danger",
+      accept: () => handleDelete(rowData),
+      reject: () => {},
+    });
+  };
+
   return (
     <>
       <Button
@@ -51,19 +64,23 @@ export const actionBodyTemplate = (rowData, { handleDelete }) => {
         severity="danger"
         rounded
         raised
-        onClick={() => handleDelete(rowData)}
+        onClick={() => deleteConfirm(rowData)}
       />
     </>
   );
 };
 
-export const header = (
-  <div className="flex flex-wrap align-items-center justify-content-between gap-2">
-    <span className="text-xl text-900 font-bold">Transaction Data</span>
-    <Button icon="pi pi-plus" rounded raised />
-  </div>
-);
+export const Header = ({setVisible}) => {
+  return (
+    <div className="flex flex-wrap align-items-center justify-content-between gap-2">
+      <span className="text-xl text-900 font-bold">Transaction Data</span>
+      <Button icon="pi pi-plus" rounded raised onClick={() => setVisible(true)}/>
+    </div>
+  );
+};
 
 export const Footer = ({ transaction }) => {
-  return `In total there are ${transaction ? transaction.length : 0} transaction.`;
+  return `In total there are ${
+    transaction ? transaction.length : 0
+  } transaction.`;
 };

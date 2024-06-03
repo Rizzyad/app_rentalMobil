@@ -26,6 +26,14 @@ const formatDate = (date) => {
   return `${day}/${month}/${year}`;
 };
 
+const calculateDays = (startDate, endDate) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const diffTime = Math.abs(end - start);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays;
+};
+
 function App() {
   const [transaction, setTransaction] = useState([]);
   const [carsData, setCarsData] = useState([]);
@@ -45,6 +53,47 @@ function App() {
     setCarsData(carData);
   }, []);
 
+  useEffect(() => {
+    if (
+      newTransaction.car &&
+      newTransaction.rentalDate &&
+      newTransaction.returnDate
+    ) {
+      const selectedCar = carsData.find(
+        (car) =>
+          ` ${car.name}  : ${car.pricePerDay} /day` === newTransaction.car
+      );
+      if (selectedCar) {
+        if (newTransaction.rentalDate > newTransaction.returnDate) {
+          setNewTransaction((prevState) => ({
+            ...prevState,
+            rentalFees: selectedCar.pricePerDay,
+          }));
+          toast.current.show({
+            severity: "error",
+            summary: "Error",
+            detail: "Finish date cannot be earlier than rental date",
+            life: 3000,
+          });
+          return;
+        }
+
+        const rentalDays =
+          calculateDays(newTransaction.rentalDate, newTransaction.returnDate) +
+          1;
+        setNewTransaction((prevState) => ({
+          ...prevState,
+          rentalFees: selectedCar.pricePerDay * rentalDays,
+        }));
+      }
+    }
+  }, [
+    newTransaction.car,
+    newTransaction.rentalDate,
+    newTransaction.returnDate,
+    carsData,
+  ]);
+
   const handleDelete = (rowData) => {
     setTransaction(transaction.filter((item) => item.id !== rowData.id));
     toast.current.show({
@@ -55,14 +104,22 @@ function App() {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const { car, customer, rentalDate, returnDate, rentalFees } =
       newTransaction;
 
-    const carUpdated = car.split(":")[0].trim();
-
-    if (!car && !customer && !rentalDate && !returnDate && rentalFees === 0)
+    if (!car || !customer || !rentalDate || !returnDate || rentalFees === 0) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Please fill out all fields",
+        life: 3000,
+      });
       return;
+    }
+
+    const carUpdated = car.split(":")[0].trim();
 
     const newId =
       transaction.length > 0
@@ -98,6 +155,7 @@ function App() {
 
   const handleInputChange = (field, value) => {
     let updatedTransaction = { ...newTransaction, [field]: value };
+
     if (field === "car") {
       const selectedCar = carsData.find(
         (car) => ` ${car.name}  : ${car.pricePerDay} /day` === value
@@ -119,57 +177,64 @@ function App() {
         <div className="card flex justify-content-center">
           <Menubar model={items} start={start} />
           <Modal opened={opened} onClose={close} title="New Transaction">
-            <Select
-              data-autofocus
-              label="Car"
-              placeholder="Select the car"
-              data={carsData.map(
-                (car) => ` ${car.name}  : ${car.pricePerDay} /day`
-              )}
-              value={newTransaction.car || ""}
-              onChange={(value) => handleInputChange("car", value)}
-            />
-            <TextInput
-              label="Name"
-              placeholder="input your name"
-              value={newTransaction.customer || ""}
-              onChange={(event) =>
-                handleInputChange("customer", event.target.value)
-              }
-            />
-            <DateInput
-              label="Rental Date"
-              placeholder="input rental date"
-              value={newTransaction.rentalDate || ""}
-              onChange={(value) => handleInputChange("rentalDate", value)}
-            />
-            <DateInput
-              label="Finish Date"
-              placeholder="input finish date"
-              value={newTransaction.returnDate || ""}
-              onChange={(value) => handleInputChange("returnDate", value)}
-            />
-            <NumberInput
-              label="Rental Fees"
-              placeholder="total rental fees"
-              value={newTransaction.rentalFees || ""}
-              onChange={(value) => handleInputChange("rentalFees", value)}
-              readOnly
-            />
-            <div className="flex justify-content-end">
-              <Button
-                variant="filled"
-                color="red"
-                mr="sm"
-                mt="md"
-                onClick={close}
-              >
-                Cancel
-              </Button>
-              <Button variant="filled" mt="md" onClick={handleSubmit}>
-                Submit
-              </Button>
-            </div>
+            <form onSubmit={handleSubmit}>
+              <Select
+                data-autofocus
+                label="Car"
+                placeholder="Select the car"
+                data={carsData.map(
+                  (car) => ` ${car.name}  : ${car.pricePerDay} /day`
+                )}
+                value={newTransaction.car || ""}
+                onChange={(value) => handleInputChange("car", value)}
+                required
+              />
+              <TextInput
+                label="Name"
+                placeholder="input your name"
+                value={newTransaction.customer || ""}
+                onChange={(event) =>
+                  handleInputChange("customer", event.target.value)
+                }
+                required
+              />
+              <DateInput
+                label="Rental Date"
+                placeholder="input rental date"
+                value={newTransaction.rentalDate || ""}
+                onChange={(value) => handleInputChange("rentalDate", value)}
+                required
+              />
+              <DateInput
+                label="Finish Date"
+                placeholder="input finish date"
+                value={newTransaction.returnDate || ""}
+                onChange={(value) => handleInputChange("returnDate", value)}
+                required
+              />
+              <NumberInput
+                label="Rental Fees"
+                placeholder="total rental fees"
+                value={newTransaction.rentalFees || ""}
+                onChange={(value) => handleInputChange("rentalFees", value)}
+                readOnly
+                required
+              />
+              <div className="flex justify-content-end">
+                <Button
+                  variant="filled"
+                  color="red"
+                  mr="sm"
+                  mt="md"
+                  onClick={close}
+                >
+                  Cancel
+                </Button>
+                <Button variant="filled" mt="md" type="submit">
+                  Submit
+                </Button>
+              </div>
+            </form>
           </Modal>
           <br />
         </div>

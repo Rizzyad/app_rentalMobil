@@ -70,11 +70,11 @@ export const ActionBodyTemplate = ({rowData, handleDelete}) => {
   );
 };
 
-export const Header = ({setVisible}) => {
+export const Header = ({open}) => {
   return (
     <div className="flex flex-wrap align-items-center justify-content-between gap-2">
       <span className="text-xl text-900 font-bold">Transaction Data</span>
-      <Button icon="pi pi-plus" rounded raised onClick={() => setVisible(true)}/>
+      <Button icon="pi pi-plus" rounded raised onClick={open}/>
     </div>
   );
 };

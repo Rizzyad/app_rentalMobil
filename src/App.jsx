@@ -12,11 +12,12 @@ import { useState, useEffect, useRef } from "react";
 import { Menubar } from "primereact/menubar";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { Button, Group, Modal } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 
 function App() {
   const [transaction, setTransaction] = useState([]);
-
-  const [visible, setVisible] = useState(false);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const toast = useRef(null);
 
@@ -36,6 +37,9 @@ function App() {
 
   return (
     <>
+      <Modal opened={opened} onClose={close} title="Authentication">
+        cek modal
+      </Modal>
       <Toast ref={toast} />
       <ConfirmDialog />
       <div className="navbar">
@@ -50,7 +54,7 @@ function App() {
             <h1>Rental Car</h1>
             <DataTable
               value={transaction}
-              header={<Header setVisible={setVisible} />}
+              header={<Header open={open} />}
               footer={<Footer transaction={transaction} />}
               tableStyle={{ minWidth: "60rem" }}
             >

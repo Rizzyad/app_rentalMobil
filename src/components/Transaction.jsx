@@ -1,10 +1,5 @@
-import {
-  columns,
-  Header,
-  Footer,
-  ActionBodyTemplate,
-} from "./Transaction/TableContent";
-import Navbar from "./Transaction/Navbar"
+import TableContent from "./Transaction/TableContent";
+import Navbar from "./Transaction/Navbar";
 import { FormModalInsert, FormModalEdit } from "./Transaction/FormModal";
 import { calculateDays, formatDate } from "../functions/Functions";
 import { tableData } from "../data/TableData";
@@ -12,8 +7,6 @@ import { carData } from "../data/CarData";
 import { useState, useEffect, useRef } from "react";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
 import { Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
@@ -128,7 +121,7 @@ const Transaction = () => {
     carsData,
   ]);
 
-  const handleModalEdit = (rowData) => {
+  const handleModalEdit = ({rowData}) => {
     const selectedTransaction = transaction.find(
       (item) => item.id === rowData.id
     );
@@ -240,7 +233,7 @@ const Transaction = () => {
     close2();
   };
 
-  const handleDelete = (rowData) => {
+  const handleDelete = ({rowData}) => {
     setTransaction(transaction.filter((item) => item.id !== rowData.id));
     toast.current.show({
       severity: "success",
@@ -304,26 +297,12 @@ const Transaction = () => {
         <div className="flex justify-content-center">
           <div className="card">
             <h1>Rental Car</h1>
-            <DataTable
-              value={transaction}
-              header={<Header open={open} />}
-              footer={<Footer transaction={transaction} />}
-              tableStyle={{ minWidth: "60rem" }}
-            >
-              {columns.map((col) => (
-                <Column key={col.field} field={col.field} header={col.header} />
-              ))}
-              <Column
-                body={(rowData) => (
-                  <ActionBodyTemplate
-                    rowData={rowData}
-                    handleDelete={handleDelete}
-                    handleModalEdit={handleModalEdit}
-                  />
-                )}
-                header="Action"
-              />
-            </DataTable>
+            <TableContent
+              transaction={transaction}
+              open={open}
+              handleDelete={handleDelete}
+              handleModalEdit={handleModalEdit}
+            />
           </div>
         </div>
       </div>

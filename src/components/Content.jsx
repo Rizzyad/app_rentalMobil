@@ -13,29 +13,30 @@ export const columns = [
 export const tableData = [
   {
     id: 1,
-    car: "Avanza",
+    car: "Fortuner",
     customer: "Adi",
-    rentalDate: "20/05/2024",
-    returnDate: "23/05/2024",
-    rentalFees: "100000",
+    rentalDate: "2024-05-20",
+    returnDate: "2024-05-23",
+    rentalFees: "20000",
   },
   {
     id: 2,
     car: "Aventador",
     customer: "Eka",
-    rentalDate: "25/05/2024",
-    returnDate: "30/05/2024",
-    rentalFees: "200000",
+    rentalDate: "2024-05-25",
+    returnDate: "2024-05-30",
+    rentalFees: "60000",
   },
   {
     id: 3,
     car: "Ferrari",
     customer: "Dian",
-    rentalDate: "22/05/2024",
-    returnDate: "28/05/2024",
-    rentalFees: "700000",
+    rentalDate: "2024-05-22",
+    returnDate: "2024-05-28",
+    rentalFees: "56000",
   },
 ];
+
 
 export const carData = [
   {
@@ -60,7 +61,7 @@ export const carData = [
   },
 ];
 
-export const ActionBodyTemplate = ({ rowData, handleDelete }) => {
+export const ActionBodyTemplate = ({ rowData, handleDelete, handleModalEdit }) => {
   const deleteConfirm = (rowData) => {
     confirmDialog({
       message: "Do you want to delete this record?",
@@ -81,6 +82,7 @@ export const ActionBodyTemplate = ({ rowData, handleDelete }) => {
         rounded
         raised
         style={{ marginRight: "5px" }}
+        onClick={() => handleModalEdit(rowData)}
       />
       <Button
         icon="pi pi-trash"

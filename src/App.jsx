@@ -3,20 +3,20 @@ import {
   columns,
   Header,
   Footer,
-  tableData,
-  carData,
   ActionBodyTemplate,
-} from "./components/Content";
+} from "./components/TableContent";
+import { FormModalInsert, FormModalEdit } from "./components/FormModal";
+import { calculateDays, formatDate } from "./functions/Functions";
+import { tableData } from "./data/TableData";
+import { carData } from "./data/CarData";
+import { useState, useEffect, useRef } from "react";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
-import { useState, useEffect, useRef } from "react";
 import { Menubar } from "primereact/menubar";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { calculateDays, formatDate } from "./functions/Functions";
-import { FormModalInsert, FormModalEdit } from "./components/FormModal";
 
 function App() {
   const [transaction, setTransaction] = useState([]);

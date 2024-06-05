@@ -86,7 +86,7 @@ const Transaction = () => {
     ) {
       const selectedCar = carsData.find(
         (car) =>
-          ` ${car.name}  : ${car.pricePerDay} /day` === selectedTransaction.car
+          ` ${car.name}  : ${formatCurrency(car.pricePerDay)} /day` === selectedTransaction.car
       );
       if (selectedCar) {
         if (selectedTransaction.rentalDate > selectedTransaction.returnDate) {
@@ -129,9 +129,9 @@ const Transaction = () => {
       ...selectedTransaction,
       rentalDate: new Date(selectedTransaction.rentalDate), // Konversi string ke Date
       returnDate: new Date(selectedTransaction.returnDate), // Konversi string ke Date
-      car: ` ${selectedTransaction.car}  : ${
+      car: ` ${selectedTransaction.car}  : ${formatCurrency(
         carsData.find((car) => car.name === selectedTransaction.car)
-          ?.pricePerDay || 0
+          ?.pricePerDay || 0)
       } /day`,
     });
     open2();
@@ -265,6 +265,8 @@ const Transaction = () => {
 
     setNewTransaction(updatedTransaction);
   };
+
+  console.log(selectedTransaction);
 
   return (
     <>

@@ -74,7 +74,7 @@ export const FormModalEdit = ({
         data-autofocus
         label="Car"
         placeholder="Select the car"
-        data={carsData.map((car) => ` ${car.name}  : ${car.pricePerDay} /day`)}
+        data={carsData.map((car) => ` ${car.name}  : ${formatCurrency(car.pricePerDay)} /day`)}
         value={selectedTransaction?.car || ""}
         onChange={(value) => handleInputEdit("car", value)}
         required
@@ -100,10 +100,10 @@ export const FormModalEdit = ({
         onChange={(value) => handleInputEdit("returnDate", value)}
         required
       />
-      <NumberInput
+      <TextInput
         label="Rental Fees"
         placeholder="total rental fees"
-        value={selectedTransaction?.rentalFees || ""}
+        value={formatCurrency(selectedTransaction?.rentalFees) || ""}
         onChange={(value) => handleInputEdit("rentalFees", value)}
         readOnly
         required

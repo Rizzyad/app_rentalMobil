@@ -1,5 +1,6 @@
 import { Button, TextInput, NumberInput, Select } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
+import { formatCurrency } from "../../functions/Functions";
 
 export const FormModalInsert = ({
   carsData,
@@ -14,7 +15,7 @@ export const FormModalInsert = ({
         data-autofocus
         label="Car"
         placeholder="Select the car"
-        data={carsData.map((car) => ` ${car.name}  : ${car.pricePerDay} /day`)}
+        data={carsData.map((car) => ` ${car.name}  : ${formatCurrency(car.pricePerDay)} /day`)}
         value={newTransaction.car || ""}
         onChange={(value) => handleInputChange("car", value)}
         required
@@ -40,10 +41,10 @@ export const FormModalInsert = ({
         onChange={(value) => handleInputChange("returnDate", value)}
         required
       />
-      <NumberInput
+      <TextInput
         label="Rental Fees"
         placeholder="total rental fees"
-        value={newTransaction.rentalFees || ""}
+        value={formatCurrency(newTransaction.rentalFees) || ""}
         onChange={(value) => handleInputChange("rentalFees", value)}
         readOnly
         required

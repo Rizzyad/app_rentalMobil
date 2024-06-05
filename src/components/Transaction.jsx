@@ -1,7 +1,7 @@
 import TableContent from "./Transaction/TableContent";
 import Navbar from "./Transaction/Navbar";
 import { FormModalInsert, FormModalEdit } from "./Transaction/FormModal";
-import { calculateDays, formatDate } from "../functions/Functions";
+import { calculateDays, formatCurrency, formatDate } from "../functions/Functions";
 import { tableData } from "../data/TableData";
 import { carData } from "../data/CarData";
 import { useState, useEffect, useRef } from "react";
@@ -45,7 +45,7 @@ const Transaction = () => {
     ) {
       const selectedCar = carsData.find(
         (car) =>
-          ` ${car.name}  : ${car.pricePerDay} /day` === newTransaction.car
+          ` ${car.name}  : ${formatCurrency(car.pricePerDay)} /day` === newTransaction.car
       );
       if (selectedCar) {
         if (newTransaction.rentalDate > newTransaction.returnDate) {
@@ -254,7 +254,7 @@ const Transaction = () => {
 
     if (field === "car") {
       const selectedCar = carsData.find(
-        (car) => ` ${car.name}  : ${car.pricePerDay} /day` === value
+        (car) => ` ${car.name}  : ${formatCurrency(car.pricePerDay)} /day` === value
       );
       if (selectedCar) {
         updatedTransaction.rentalFees = selectedCar.pricePerDay;
@@ -262,6 +262,7 @@ const Transaction = () => {
         updatedTransaction.rentalFees = 0;
       }
     }
+
     setNewTransaction(updatedTransaction);
   };
 

@@ -1,11 +1,21 @@
-import { useNavigate } from "react-router-dom";
+import Stats from "./Dashboard/Stats";
+import Navbar from "./Transaction/Navbar";
 
 const Dashboard = () => {
-  const navigate = useNavigate();
   return (
     <>
-      <h1>Cek ini Dashboard</h1>
-      <button onClick={() => navigate("/transaction")}>Ke Transaksi</button>
+      <div className="navbar">
+        <div className="card flex justify-content-center">
+          <Navbar />
+        </div>
+      </div>
+      <br />
+      <div className="flex justify-content-center">
+        <div className="card">
+          <h1>Rental Car</h1>
+        </div>
+      </div>
+      <Stats />
     </>
   );
 };

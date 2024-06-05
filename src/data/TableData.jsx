@@ -5,7 +5,7 @@ export const tableData = [
     customer: "Adi",
     rentalDate: "2024-05-20",
     returnDate: "2024-05-23",
-    rentalFees: "20000",
+    rentalFees: 20000,
   },
   {
     id: 2,
@@ -13,7 +13,7 @@ export const tableData = [
     customer: "Eka",
     rentalDate: "2024-05-25",
     returnDate: "2024-05-30",
-    rentalFees: "60000",
+    rentalFees: 60000,
   },
   {
     id: 3,
@@ -21,6 +21,6 @@ export const tableData = [
     customer: "Dian",
     rentalDate: "2024-05-22",
     returnDate: "2024-05-28",
-    rentalFees: "56000",
+    rentalFees: 56000,
   },
 ];

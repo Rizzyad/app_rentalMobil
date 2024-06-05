@@ -2,15 +2,13 @@ import { Button } from "primereact/button";
 import { confirmDialog } from "primereact/confirmdialog";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { formatCurrency } from "../../functions/Functions";
+import { formatCurrency, formatDate2 } from "../../functions/Functions";
 
 const TableContent = ({ transaction, open, handleDelete, handleModalEdit }) => {
   const columns = [
     { field: "id", header: "ID" },
     { field: "car", header: "Car" },
     { field: "customer", header: "Customer" },
-    { field: "rentalDate", header: "Rental Date" },
-    { field: "returnDate", header: "Return Date" },
   ];
 
   const Header = () => {
@@ -65,6 +63,14 @@ const TableContent = ({ transaction, open, handleDelete, handleModalEdit }) => {
   const priceBodyTemplate = (transaction) => {
     return formatCurrency(transaction.rentalFees);
   };
+  
+  const RentalDateBodyTemplate = (transaction) => {
+    return formatDate2(transaction.rentalDate);
+  }
+
+  const ReturnDateBodyTemplate = (transaction) => {
+    return formatDate2(transaction.returnDate);
+  }
 
   return (
     <>
@@ -77,6 +83,16 @@ const TableContent = ({ transaction, open, handleDelete, handleModalEdit }) => {
         {columns.map((col) => (
           <Column key={col.field} field={col.field} header={col.header} />
         ))}
+        <Column
+          field="rentalDate"
+          header="Rental Date"
+          body={RentalDateBodyTemplate}
+        />
+        <Column
+          field="returnDate"
+          header="Return Date"
+          body={ReturnDateBodyTemplate}
+        />
         <Column
           field="rentalFees"
           header="Rental Fees"

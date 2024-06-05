@@ -266,8 +266,6 @@ const Transaction = () => {
     setNewTransaction(updatedTransaction);
   };
 
-  console.log(selectedTransaction);
-
   return (
     <>
       <Toast ref={toast} />

@@ -8,14 +8,13 @@ const Dashboard = () => {
         <div className="card flex justify-content-center">
           <Navbar />
         </div>
-      </div>
-      <br />
-      <div className="flex justify-content-center">
-        <div className="card">
+      </div>    
+      <div className="content">
+        <div className="flex justify-content-center">
           <h1>Rental Car</h1>
         </div>
+        <Stats />
       </div>
-      <Stats />
     </>
   );
 };

@@ -2,6 +2,10 @@ import Navbar from "./Transaction/Navbar";
 import TableContentCar from "./Car/TableContentCar";
 import { carData } from "../data/CarData";
 import { FormModalInsert, FormModalEdit } from "./Car/FormModal";
+import {
+  loadFromLocalStorage,
+  saveToLocalStorage,
+} from "../functions/Functions";
 import { useState, useRef, useEffect } from "react";
 import { Toast } from "primereact/toast";
 import { ConfirmDialog } from "primereact/confirmdialog";
@@ -24,7 +28,8 @@ const Car = () => {
   const toast = useRef(null);
 
   useEffect(() => {
-    setTotalCars(carData);
+    const loadedTableData = loadFromLocalStorage("carData");
+    setTotalCars(loadedTableData.length ? loadedTableData : carData);
   }, []);
 
   const handleModalEdit = ({ rowData }) => {
@@ -55,11 +60,15 @@ const Car = () => {
       pricePerDay,
     };
 
+    const StorageCar = [...totalCars, newEntry];
+
     setTotalCars([...totalCars, newEntry]);
     setNewCar({
       name: "",
       pricePerDay: 0,
     });
+
+    saveToLocalStorage("carData", StorageCar);
 
     toast.current.show({
       severity: "success",
@@ -87,10 +96,13 @@ const Car = () => {
     }
 
     const updatedCar = totalCars.map((t) =>
-      t.id === selectedCar.id ? selectedCar  : t
+      t.id === selectedCar.id ? selectedCar : t
     );
 
     setTotalCars(updatedCar);
+
+    saveToLocalStorage("carData", updatedCar);
+
     setSelectedCar({
       name: "",
       pricePerDay: 0,
@@ -106,7 +118,9 @@ const Car = () => {
   };
 
   const handleDelete = ({ rowData }) => {
-    setTotalCars(totalCars.filter((item) => item.id !== rowData.id));
+    const selectedCar = totalCars.filter((item) => item.id !== rowData.id);
+    setTotalCars(selectedCar);
+    saveToLocalStorage("carData", selectedCar);
     toast.current.show({
       severity: "success",
       summary: "Success",
@@ -125,7 +139,7 @@ const Car = () => {
     if (newCar) {
       setNewCar({ ...newCar, [field]: value });
     }
-  };  
+  };
 
   return (
     <>

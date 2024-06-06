@@ -1,7 +1,7 @@
 import TableContent from "./Transaction/TableContent";
 import Navbar from "./Transaction/Navbar";
 import { FormModalInsert, FormModalEdit } from "./Transaction/FormModal";
-import { calculateDays, formatCurrency, formatDate } from "../functions/Functions";
+import { calculateDays, formatCurrency, formatDate, loadFromLocalStorage } from "../functions/Functions";
 import { tableData } from "../data/TableData";
 import { carData } from "../data/CarData";
 import { useState, useEffect, useRef } from "react";
@@ -34,7 +34,8 @@ const Transaction = () => {
 
   useEffect(() => {
     setTransaction(tableData);
-    setCarsData(carData);
+    const loadedCardData = loadFromLocalStorage('carData')
+    setCarsData(loadedCardData);
   }, []);
 
   useEffect(() => {

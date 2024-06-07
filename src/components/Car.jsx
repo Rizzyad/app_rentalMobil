@@ -5,8 +5,6 @@ import { FormModalInsert, FormModalEdit } from "./Car/FormModal";
 import { useState, useRef, useEffect } from "react";
 import { Toast } from "primereact/toast";
 import { ConfirmDialog } from "primereact/confirmdialog";
-import { useDisclosure } from "@mantine/hooks";
-import { Modal } from "@mantine/core";
 
 const Car = () => {
   const [totalCars, setTotalCars] = useState([]);

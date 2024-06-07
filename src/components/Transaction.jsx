@@ -7,8 +7,6 @@ import { carData } from "../data/CarData";
 import { useState, useEffect, useRef } from "react";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
-import { Modal } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 
 const Transaction = () => {
   const [transaction, setTransaction] = useState([]);

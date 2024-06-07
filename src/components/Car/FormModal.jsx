@@ -1,4 +1,4 @@
-import { Button, TextInput, NumberInput } from "@mantine/core";
+
 
 export const FormModalInsert = ({
   handleSubmit,

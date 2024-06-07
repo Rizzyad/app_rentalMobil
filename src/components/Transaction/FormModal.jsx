@@ -1,5 +1,3 @@
-import { Button, TextInput, NumberInput, Select } from "@mantine/core";
-import { DateInput } from "@mantine/dates";
 import { formatCurrency } from "../../functions/Functions";
 
 export const FormModalInsert = ({
